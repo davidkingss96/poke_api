@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_list.dart';
+import 'package:poke_api/screens/type_list.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         page = PokemonList();
       case 1:
-        page = Text('Index 1');
+        page = TypeList();
 
       default:
         throw UnimplementedError('no widget for $appState.selectedIndex');
@@ -95,10 +96,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('Pokemon List'),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.catching_pokemon, color: Colors.white),
+                icon: Icon(Icons.account_tree_rounded, color: Colors.white),
                 label: Text('Pokemon List'),
               ),
-            ],//https://davidkingss96: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@github.com/davidkingss96/poke_api.git
+            ],
             selectedIndex: appState.selectedIndex,
             onDestinationSelected: (value) {
               setState(() {

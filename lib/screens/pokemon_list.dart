@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
 import '../services/pokemon_services.dart';
 
@@ -64,7 +63,7 @@ class _PokemonListState extends State<PokemonList> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => pokemonTile.extendsPokemonInfo(pokemon)),
+                  MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(pokemon, extended: true)),
                 );
               },
               subtitle: pokemonTile.buildPokemonTile(pokemon),
