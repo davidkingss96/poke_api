@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
 
@@ -51,23 +50,46 @@ class _TypeListState extends State<TypeList> {
                     } else if (snapshot.hasData) {
                       final pokemonOfType = snapshot.data!["pokemon"];
 
+                      List<Widget> buttonRows = [];
+                      for (var i = 0; i < pokemonOfType.length; i += 3) {
+                        List<Widget> buttons = [];
+                        for (var j = i; j < i + 3 && j < pokemonOfType.length; j++) {
+                          var urlExplode = pokemonOfType[j]["pokemon"]["url"].toString().split('/');
+                          var urlImageConcat = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${urlExplode[urlExplode.length - 2]}.png';
+                          buttons.add(
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(pokemonOfType[j]["pokemon"], extended: true)),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+                                backgroundColor: Colors.blue,
+                              ),
+                              child: Image.network(
+                                urlImageConcat,
+                                width: 90,
+                                height: 90,
+                                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                  return Text('Image not found');
+                                },
+                              ),
+                            ),
+                          );
+                        }
+                        buttonRows.add(Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: buttons,
+                        ));
+                      }
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Column(
-                            children: [
-                              for(var pokemon in pokemonOfType)
-                                ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(pokemon["pokemon"], extended: true)),
-                                      );
-                                    },
-                                    child: Text(pokemon["pokemon"]["name"]),
-                                ),
-                                // pokemonTile.buildPokemonTile(pokemon["pokemon"]),
-                            ],
+                            children: buttonRows,
                           )
                         ],
                       );

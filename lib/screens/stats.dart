@@ -6,15 +6,27 @@ Widget getStats(List<dynamic> stats){
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       SizedBox(height: 10),
-      Text("Stats", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+      Container(
+        color: Colors.blue,
+        width: 350.0,
+        height: 20.0,
+        child: Text("Stats", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
+      ),
       for(var state in stats)
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(state['stat']['name'].toString().toUpperCase(), style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(width: 5),
-            Text(state['base_stat'].toString()),
+            SizedBox(
+              width: 175,
+              child: Text(
+                "${state['stat']['name'].toString().toUpperCase()}: ",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                textAlign: TextAlign.right
+              ),
+            ),
+            SizedBox(
+              width: 175,
+              child: Text(state['base_stat'].toString()),
+            ),
           ],
         )
     ],

@@ -20,10 +20,16 @@ class PokemonLocalStorage{
     return records;
   }
 
-  Future<void> addNewPokemonLocal(newUser) async {
+  Future<void> addNewPokemonLocal(newPokemon) async {
     List<Map<String, dynamic>> records = await getListPokemon();
-
-    records.add(newUser);
-    _storage.setItem('records', records);
+    var newPokObj = {
+      "name": newPokemon["name"],
+      "url": "https://pokeapi.co/api/v2/pokemon/${newPokemon["name"]}"
+    };
+    if(records.indexWhere((record) => record['name'] == newPokemon['name']) == -1){
+      records.add(newPokObj);
+      _storage.setItem('pokemon', records);
+    }
+    print(records.length);
   }
 }

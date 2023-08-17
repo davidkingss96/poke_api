@@ -12,7 +12,7 @@ Widget getTypes(BuildContext context, List<dynamic> types) {
       SizedBox(height: 10),
       Container(
         color: Colors.blue,
-        width: 250.0,
+        width: 350.0,
         height: 20.0,
         child: Text("Types", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
       ),
@@ -22,7 +22,7 @@ Widget getTypes(BuildContext context, List<dynamic> types) {
         children: [
           for(var type in types)
             SizedBox(
-              height: 25,
+              height: 20,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -30,7 +30,11 @@ Widget getTypes(BuildContext context, List<dynamic> types) {
                     MaterialPageRoute(builder: (context) => damageRelations(type['type'])),
                   );
                 },
-                child: Text(type['type']['name'].toString().toUpperCase()),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  backgroundColor: Colors.blue,
+                ),
+                child: Text(type['type']['name'].toString().toUpperCase(), style: TextStyle(color: Colors.white),),
               ),
             )
         ],

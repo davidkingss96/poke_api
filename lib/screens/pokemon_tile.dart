@@ -3,13 +3,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:poke_api/screens/stats.dart';
 import 'package:poke_api/screens/types.dart';
 
+import '../services/local_data.dart';
 import '../services/pokemon_services.dart';
 import 'abilities.dart';
 
 class PokemonTile {
   final PokemonServices pokemonService = PokemonServices();
+  final PokemonLocalStorage pokemonLocalStorage = PokemonLocalStorage();
 
   Widget buildPokemonTile(Map<String, dynamic> pokemon, {extended = false}){
+    if(!extended){
+      var urlExplode = pokemon['url'].toString().split('/');
+      var urlImageConcat = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${urlExplode[urlExplode.length - 2]}.svg';
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.network(urlImageConcat, width: 90, height: 90,),
+          Text(pokemon['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+
+        ],
+      );
+    }
     return FutureBuilder<Map<String, dynamic>>(
       future: pokemonService.getData(pokemon['url']),
       builder: (context, snapshot) {
@@ -24,6 +38,7 @@ class PokemonTile {
           return Text('Error');
         } else if (snapshot.hasData) {
           final pokemonData = snapshot.data!;
+          pokemonLocalStorage.addNewPokemonLocal(pokemonData);
           if(extended){
             return extendsPokemonInfo(pokemonData, context);
           }else{
@@ -57,7 +72,19 @@ class PokemonTile {
     final pokemonName = pokemonData['name'].toString().toUpperCase();
     final pokemonHeight = pokemonData['height'];
     final pokemonWeight = pokemonData['weight'];
-    final urlImage = pokemonData['sprites']['other']['dream_world']['front_default'];
+    var urlImage = pokemonData['sprites']['other']['dream_world']['front_default'];
+    Widget image;
+    if(urlImage != null){
+      image = SvgPicture.network(urlImage, width: 90, height: 90);
+    }else{
+      urlImage = pokemonData['sprites']['other']['home']['front_default'];
+      urlImage ??= pokemonData['sprites']['front_default'];
+      if(urlImage != null){
+        image = Image.network(urlImage, width: 90, height: 90);
+      }else{
+       image = Text('File not found');
+      }
+    }
     final List abilities = pokemonData['abilities'];
     final List stats = pokemonData['stats'];
     final List types = pokemonData['types'];
@@ -70,7 +97,7 @@ class PokemonTile {
           borderOnForeground: true,
           color: Theme.of(context).colorScheme.inversePrimary,
           child:  SizedBox(
-            width: 300,
+            width: 400,
             height: 500,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -84,15 +111,15 @@ class PokemonTile {
                       topRight: Radius.circular(10),
                     ),
                   ),
-                  width: 250.0,
+                  width: 350.0,
                   height: 30.0,
                   child: Text(pokemonName, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
                 ),
                 Container(
                   color: Colors.white,
-                  width: 250.0,
+                  width: 350.0,
                   height: 120.0,
-                  child: SvgPicture.network(urlImage, width: 90, height: 90,),
+                  child: image,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -102,7 +129,7 @@ class PokemonTile {
                       bottomRight: Radius.circular(10),
                     ),
                   ),
-                  width: 250.0,
+                  width: 350.0,
                   height: 30.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +146,7 @@ class PokemonTile {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  width: 250.0,
+                  width: 350.0,
                   child: Column(
                     children: [
                       getAbilities(context, abilities),

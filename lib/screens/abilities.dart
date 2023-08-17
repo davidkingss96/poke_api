@@ -17,7 +17,7 @@ Widget getAbilities(BuildContext context, List<dynamic> abilitiesList) {
             topRight: Radius.circular(10),
           ),
         ),
-        width: 250.0,
+        width: 350.0,
         height: 20.0,
         child: Text("Abilities", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white), textAlign: TextAlign.center),
       ),
@@ -27,10 +27,14 @@ Widget getAbilities(BuildContext context, List<dynamic> abilitiesList) {
         children: [
           for(var ability in abilitiesList)
             SizedBox(
-              height: 25,
+              height: 20,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                  backgroundColor: Colors.blue,
+                ),
                 onPressed: () => _navigateToAbilityInfo(context, ability['ability']),
-                child: Text(ability['ability']['name'].toString().toUpperCase()),
+                child: Text(ability['ability']['name'], style: TextStyle(color: Colors.white),),
               ),
             )
         ],
