@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_list.dart';
+import 'package:poke_api/screens/search_pokemon.dart';
 import 'package:poke_api/screens/type_list.dart';
 import 'package:provider/provider.dart';
 
@@ -67,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
         page = PokemonList();
       case 1:
         page = TypeList();
+      case 2:
+        page = SearchPokemon();
 
       default:
         throw UnimplementedError('no widget for $appState.selectedIndex');
@@ -98,6 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
               NavigationRailDestination(
                 icon: Icon(Icons.account_tree_rounded, color: Colors.white),
                 label: Text('Pokemon List'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.search, color: Colors.white),
+                label: Text('Pokemon Search'),
               ),
             ],
             selectedIndex: appState.selectedIndex,

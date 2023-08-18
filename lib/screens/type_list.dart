@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
 
+import '../services/local_data.dart';
 import '../services/pokemon_services.dart';
 
 class TypeList extends StatefulWidget {
@@ -12,6 +13,7 @@ class _TypeListState extends State<TypeList> {
   List<Map<String, dynamic>> typeList = [];
   final PokemonServices pokemonService = PokemonServices();
   final PokemonTile pokemonTile = PokemonTile();
+  final PokemonLocalStorage pokemonLocalStorage = PokemonLocalStorage();
 
   @override
   void initState() {
@@ -29,6 +31,11 @@ class _TypeListState extends State<TypeList> {
     }catch (err){
       print(err);
     }
+  }
+
+  Future<void> fetchPokemonDataAndBuildTile(List<dynamic> pokemon, type) async {
+    //final pokemonData = await pokemonService.getData(pokemon['url']);
+    pokemonLocalStorage.addNewPokemonLocal(pokemon, type);
   }
 
   @override
@@ -49,7 +56,7 @@ class _TypeListState extends State<TypeList> {
                       return Text('Error');
                     } else if (snapshot.hasData) {
                       final pokemonOfType = snapshot.data!["pokemon"];
-
+                      fetchPokemonDataAndBuildTile(pokemonOfType, type['name']);
                       List<Widget> buttonRows = [];
                       for (var i = 0; i < pokemonOfType.length; i += 3) {
                         List<Widget> buttons = [];
