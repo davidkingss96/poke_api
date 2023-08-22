@@ -100,11 +100,18 @@ class PokemonLocalStorage{
     await jsonFile.writeAsString(updatedJsonString);
   }
 
-  Future<void> addPokemonFavorite(name) async {
-    bool exist = await validateFavorite(name);
+  Future<void> addPokemonFavorite(pokemon) async {
+    bool exist = await validateFavorite(pokemon["name"]);
+    final favoriteList = _storage.getItem('favorite_pokemon') ?? [];
     if (!exist) {
-      final favoriteList = _storage.getItem('favorite_pokemon') ?? [];
-      favoriteList.add({'name': name});
+      final newPokemon = {
+        'name': pokemon["name"],
+        'url': pokemon["url"],
+      };
+      favoriteList.add(newPokemon);
+      await _storage.setItem('favorite_pokemon', favoriteList);
+    }else{
+      favoriteList.removeWhere((record) => record["name"] == pokemon["name"]);
       await _storage.setItem('favorite_pokemon', favoriteList);
     }
   }
@@ -112,7 +119,6 @@ class PokemonLocalStorage{
   Future<bool> validateFavorite(name) async {
     final favoriteList = _storage.getItem('favorite_pokemon') ?? [];
     final existingIndex = favoriteList.indexWhere((pokemon) => pokemon['name'] == name);
-    print(favoriteList);
     if (existingIndex == -1) {
       return false;
     }else{

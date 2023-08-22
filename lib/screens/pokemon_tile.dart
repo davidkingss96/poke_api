@@ -22,7 +22,6 @@ class _PokemonTileState extends State<PokemonTile> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.extended);
     if(!widget.extended){
       var urlExplode = widget.pokemon['url'].toString().split('/');
       var urlImageConcat = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${urlExplode[urlExplode.length - 2]}.svg';
@@ -99,9 +98,10 @@ class _PokemonTileState extends State<PokemonTile> {
     final List abilities = pokemonData['abilities'];
     final List stats = pokemonData['stats'];
     final List types = pokemonData['types'];
+    pokemonData["url"] = widget.pokemon['url'];
 
     return FutureBuilder(
-      future: pokemonLocalStorage.validateFavorite(pokemonName),
+      future: pokemonLocalStorage.validateFavorite(pokemonData['name']),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
@@ -191,7 +191,7 @@ class _PokemonTileState extends State<PokemonTile> {
                           elevation: 3,
                           onPressed: () {
                             setState(() {
-                              pokemonLocalStorage.addPokemonFavorite(pokemonName);
+                              pokemonLocalStorage.addPokemonFavorite(pokemonData);
                               isPokemonFavorite = true;
                             });
                           },

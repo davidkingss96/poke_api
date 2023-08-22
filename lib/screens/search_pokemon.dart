@@ -50,7 +50,6 @@ class _SearchPokemonState extends State<SearchPokemon> {
       setState(() {
         var dataList = List<Map<String, dynamic>>.from(fetchedPokemonList['results']);
         typeList = dataList;
-        print(typeList);
       });
     }catch (err){
       print(err);
@@ -92,7 +91,6 @@ class _SearchPokemonState extends State<SearchPokemon> {
               onConfirm: (values) {
                 setState(() {
                   _selectedTypes = values;
-                  print(_selectedTypes);
                 });
               },
             ),
