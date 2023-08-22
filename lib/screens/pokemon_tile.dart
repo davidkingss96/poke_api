@@ -123,7 +123,7 @@ class _PokemonTileState extends State<PokemonTile> {
                       color: Theme.of(context).colorScheme.inversePrimary,
                       child:  SizedBox(
                         width: 400,
-                        height: 500,
+                        height: 510,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,6 +177,24 @@ class _PokemonTileState extends State<PokemonTile> {
                                   getAbilities(context, abilities),
                                   getTypes(context, types),
                                   getStats(stats),
+                                  SizedBox(height: 5),
+                                  SizedBox(
+                                    height: 20,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => Evolutions(pokemonData)),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                        child: Text('Show Evolutions', style: TextStyle(color: Colors.white),)
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,)
                                 ],
                               ),
                             ),
