@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:localstorage/localstorage.dart';
 
 class PokemonLocalStorage{
-  final LocalStorage _storage = LocalStorage('my_app');
+  final LocalStorage _storage = LocalStorage('favorite_pokemon');
   final File jsonFile = File('assets/local_data.json');
 
   Future<void> _ensureInitialized() async {
@@ -98,5 +98,25 @@ class PokemonLocalStorage{
     data['pokemons'] = records;
     final updatedJsonString = json.encode(data);
     await jsonFile.writeAsString(updatedJsonString);
+  }
+
+  Future<void> addPokemonFavorite(name) async {
+    bool exist = await validateFavorite(name);
+    if (!exist) {
+      final favoriteList = _storage.getItem('favorite_pokemon') ?? [];
+      favoriteList.add({'name': name});
+      await _storage.setItem('favorite_pokemon', favoriteList);
+    }
+  }
+
+  Future<bool> validateFavorite(name) async {
+    final favoriteList = _storage.getItem('favorite_pokemon') ?? [];
+    final existingIndex = favoriteList.indexWhere((pokemon) => pokemon['name'] == name);
+    print(favoriteList);
+    if (existingIndex == -1) {
+      return false;
+    }else{
+      return true;
+    }
   }
 }

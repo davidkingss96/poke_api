@@ -14,7 +14,6 @@ class SearchPokemon extends StatefulWidget {
 class _SearchPokemonState extends State<SearchPokemon> {
   String? search;
   TextEditingController editingController = TextEditingController();
-  final PokemonTile pokemonTile = PokemonTile();
   List<Map<String, dynamic>> typeList = [];
   final PokemonServices pokemonService = PokemonServices();
   late List _selectedTypes = [];
@@ -126,10 +125,9 @@ class _SearchPokemonState extends State<SearchPokemon> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(data![index], extended: true)),
+                                MaterialPageRoute(builder: (context) => PokemonTile(pokemon: data![index], extended: true)),
                               );
                             },
-
                           ),
                         );
                       },

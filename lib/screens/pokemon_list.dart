@@ -13,7 +13,6 @@ class _PokemonListState extends State<PokemonList> {
   List<Map<String, dynamic>> pokemonList = [];
   String? nextPageUrl;
   final PokemonServices pokemonService = PokemonServices();
-  final PokemonTile pokemonTile = PokemonTile();
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -63,10 +62,10 @@ class _PokemonListState extends State<PokemonList> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(pokemon, extended: true)),
+                  MaterialPageRoute(builder: (context) => PokemonTile(pokemon: pokemon, extended: true)),
                 );
               },
-              subtitle: pokemonTile.buildPokemonTile(pokemon),
+              subtitle: PokemonTile(pokemon: pokemon),
             );
           } else if (nextPageUrl != null) {
             return Center(child: CircularProgressIndicator());

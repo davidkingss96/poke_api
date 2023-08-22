@@ -12,7 +12,6 @@ class TypeList extends StatefulWidget {
 class _TypeListState extends State<TypeList> {
   List<Map<String, dynamic>> typeList = [];
   final PokemonServices pokemonService = PokemonServices();
-  final PokemonTile pokemonTile = PokemonTile();
   final PokemonLocalStorage pokemonLocalStorage = PokemonLocalStorage();
 
   @override
@@ -56,7 +55,7 @@ class _TypeListState extends State<TypeList> {
                       return Text('Error');
                     } else if (snapshot.hasData) {
                       final pokemonOfType = snapshot.data!["pokemon"];
-                      fetchPokemonDataAndBuildTile(pokemonOfType, type['name']);
+                      //fetchPokemonDataAndBuildTile(pokemonOfType, type['name']);
                       List<Widget> buttonRows = [];
                       for (var i = 0; i < pokemonOfType.length; i += 3) {
                         List<Widget> buttons = [];
@@ -68,7 +67,7 @@ class _TypeListState extends State<TypeList> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => pokemonTile.buildPokemonTile(pokemonOfType[j]["pokemon"], extended: true)),
+                                  MaterialPageRoute(builder: (context) => PokemonTile(pokemon: pokemonOfType[j]["pokemon"], extended: true)),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
