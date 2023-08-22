@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
+import 'package:provider/provider.dart';
+import '../main.dart';
 import '../services/pokemon_services.dart';
 
 class PokemonList extends StatefulWidget {
@@ -48,10 +50,12 @@ class _PokemonListState extends State<PokemonList> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
     return Scaffold(
       body: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: appState.columnsPokemonList,
         ),
         controller: scrollController,
         itemCount: pokemonList.length + 1,

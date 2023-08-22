@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../main.dart';
 import '../services/pokemon_services.dart';
 
 class SearchPokemon extends StatefulWidget {
@@ -64,6 +66,8 @@ class _SearchPokemonState extends State<SearchPokemon> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -119,7 +123,7 @@ class _SearchPokemonState extends State<SearchPokemon> {
                                 return Text('Image not found');
                               },
                             ),
-                            title: Text('${data?[index]['name']}'),
+                            title: appState.extendedNavigationRail ? SizedBox() : Text('${data?[index]['name']}'),
                             onTap: () {
                               Navigator.push(
                                 context,

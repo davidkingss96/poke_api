@@ -5,6 +5,7 @@ import 'package:poke_api/screens/types.dart';
 
 import '../services/local_data.dart';
 import '../services/pokemon_services.dart';
+import '../screens/evolutions.dart';
 import 'abilities.dart';
 
 class PokemonTile extends StatefulWidget{

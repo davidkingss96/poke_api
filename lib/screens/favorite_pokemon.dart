@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class FavoritePokemon extends StatefulWidget{
   @override
@@ -27,6 +30,8 @@ class _FavoritePokemonState extends State<FavoritePokemon> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -56,7 +61,7 @@ class _FavoritePokemonState extends State<FavoritePokemon> {
                                   return Text('Image not found');
                                 },
                               ),
-                              title: Text('${data?[index]['name']}'),
+                              title: appState.extendedNavigationRail ? SizedBox() : Text('${data?[index]['name']}'),
                               onTap: () {
                                 setState(() {
                                   Navigator.push(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poke_api/screens/pokemon_tile.dart';
+import 'package:provider/provider.dart';
 
+import '../main.dart';
 import '../services/local_data.dart';
 import '../services/pokemon_services.dart';
 
@@ -39,6 +41,8 @@ class _TypeListState extends State<TypeList> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -57,9 +61,10 @@ class _TypeListState extends State<TypeList> {
                       final pokemonOfType = snapshot.data!["pokemon"];
                       //fetchPokemonDataAndBuildTile(pokemonOfType, type['name']);
                       List<Widget> buttonRows = [];
-                      for (var i = 0; i < pokemonOfType.length; i += 3) {
+                      var columns = appState.columnsPokemonList == 2 ? 3 : 1;
+                      for (var i = 0; i < pokemonOfType.length; i += columns) {
                         List<Widget> buttons = [];
-                        for (var j = i; j < i + 3 && j < pokemonOfType.length; j++) {
+                        for (var j = i; j < i + columns && j < pokemonOfType.length; j++) {
                           var urlExplode = pokemonOfType[j]["pokemon"]["url"].toString().split('/');
                           var urlImageConcat = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${urlExplode[urlExplode.length - 2]}.png';
                           buttons.add(

@@ -27,6 +27,24 @@ class AppState extends ChangeNotifier {
     _selectedIndex = index;
     notifyListeners();
   }
+
+  bool _extendedNavigationRail = false;
+
+  bool get extendedNavigationRail => _extendedNavigationRail;
+
+  set extendedNavigationRail(bool show){
+    _extendedNavigationRail = show;
+    notifyListeners();
+  }
+
+  int _columnsPokemonList = 2;
+
+  int get columnsPokemonList => _columnsPokemonList;
+
+  set columnsPokemonList(int index){
+    _columnsPokemonList = index;
+    notifyListeners();
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -99,19 +117,19 @@ class _MyHomePageState extends State<MyHomePage> {
             destinations: const [
               NavigationRailDestination(
                   icon: Icon(Icons.catching_pokemon, color: Colors.white),
-                  label: Text('Pokemon List'),
+                  label: Text('Pokemon List', style: TextStyle(color: Colors.white))
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.account_tree_rounded, color: Colors.white),
-                label: Text('Pokemon List'),
+                label: Text('Pokemon Types', style: TextStyle(color: Colors.white)),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.search, color: Colors.white),
-                label: Text('Pokemon Search'),
+                label: Text('Pokemon Search', style: TextStyle(color: Colors.white)),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.favorite, color: Colors.white),
-                label: Text('Pokemon like'),
+                label: Text('Pokemon like', style: TextStyle(color: Colors.white)),
               ),
             ],
             selectedIndex: appState.selectedIndex,
@@ -120,6 +138,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 appState.selectedIndex = value;
               });
             },
+            trailing: Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: IconButton(
+                  onPressed: () async {
+                    setState(() {
+                      appState.extendedNavigationRail = !appState.extendedNavigationRail;
+                    });
+                    if(appState.extendedNavigationRail){
+                      appState.columnsPokemonList = 1;
+                    }else{
+                      await Future.delayed(const Duration(milliseconds: 300));
+                      appState.columnsPokemonList = 2;
+                    }
+                  },
+                  icon: appState.extendedNavigationRail ?
+                  Icon(Icons.keyboard_arrow_left, color: Colors.white) :
+                  Icon(Icons.keyboard_arrow_right, color: Colors.white),
+                ),
+              ),
+            ),
+            extended: appState.extendedNavigationRail,
           ) : SizedBox(),
           Expanded(child: Container(
             child: page,
